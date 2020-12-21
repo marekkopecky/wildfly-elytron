@@ -18,6 +18,7 @@ package org.wildfly.security.manager;
 
 import static java.security.AccessController.doPrivileged;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
 import java.net.URL;
@@ -27,8 +28,10 @@ import java.security.Permission;
 import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.PropertyPermission;
+import java.util.Set;
 import java.util.Stack;
 
 import org.junit.After;
@@ -158,7 +161,11 @@ public class AlternateSecurityManagerTest {
 
         ProtectionDomain[] base = baseDomains.get(0);
         assertEquals("ProtectionDomain Count", 3, base.length);
-        assertEquals("Our CodeSource", ourCodeSource, base[0].getCodeSource().getLocation());
+        Set<URL> baseLocations = new HashSet<>(base.length);
+        for (int i = 0; i < base.length; i++) {
+            baseLocations.add(base[i].getCodeSource().getLocation());
+        }
+        assertTrue("Our CodeSource", baseLocations.contains(ourCodeSource));
     }
 
     @Test
@@ -183,8 +190,12 @@ public class AlternateSecurityManagerTest {
         ProtectionDomain[] actual = actualDomains.get(0);
 
         assertEquals("Matching ProtectionDomain[] size.", base.length, actual.length);
+        Set<URL> actualLocations = new HashSet<>(actual.length);
+        for (int i = 0; i < actual.length; i++) {
+            actualLocations.add(actual[i].getCodeSource().getLocation());
+        }
         for (int i = 0; i < base.length; i++) {
-            assertEquals("Matching CodeSource Location", base[i].getCodeSource().getLocation(), actual[i].getCodeSource().getLocation());
+            assertTrue("Matching CodeSource Location", actualLocations.contains(base[i].getCodeSource().getLocation()));
         }
     }
 
@@ -206,8 +217,12 @@ public class AlternateSecurityManagerTest {
         ProtectionDomain[] actual = actualDomains.get(0);
 
         assertEquals("Matching ProtectionDomain[] size.", base.length, actual.length);
+        Set<URL> actualLocations = new HashSet<>(actual.length);
+        for (int i = 0; i < actual.length; i++) {
+            actualLocations.add(actual[i].getCodeSource().getLocation());
+        }
         for (int i = 0; i < base.length; i++) {
-            assertEquals("Matching CodeSource Location", base[i].getCodeSource().getLocation(), actual[i].getCodeSource().getLocation());
+            assertTrue("Matching CodeSource Location", actualLocations.contains(base[i].getCodeSource().getLocation()));
         }
 
         value = WildFlySecurityManager.doUnchecked(KEY, new CustomAction(), context);
@@ -264,8 +279,12 @@ public class AlternateSecurityManagerTest {
         ProtectionDomain[] actual = actualDomains.get(0);
 
         assertEquals("Matching ProtectionDomain[] size.", base.length, actual.length);
+        Set<URL> actualLocations = new HashSet<>(actual.length);
+        for (int i = 0; i < actual.length; i++) {
+            actualLocations.add(actual[i].getCodeSource().getLocation());
+        }
         for (int i = 0; i < base.length; i++) {
-            assertEquals("Matching CodeSource Location", base[i].getCodeSource().getLocation(), actual[i].getCodeSource().getLocation());
+            assertTrue("Matching CodeSource Location", actualLocations.contains(base[i].getCodeSource().getLocation()));
         }
     }
 
@@ -287,8 +306,12 @@ public class AlternateSecurityManagerTest {
         ProtectionDomain[] actual = actualDomains.get(0);
 
         assertEquals("Matching ProtectionDomain[] size.", base.length, actual.length);
+        Set<URL> actualLocations = new HashSet<>(actual.length);
+        for (int i = 0; i < actual.length; i++) {
+            actualLocations.add(actual[i].getCodeSource().getLocation());
+        }
         for (int i = 0; i < base.length; i++) {
-            assertEquals("Matching CodeSource Location", base[i].getCodeSource().getLocation(), actual[i].getCodeSource().getLocation());
+            assertTrue("Matching CodeSource Location", actualLocations.contains(base[i].getCodeSource().getLocation()));
         }
     }
 
@@ -310,8 +333,12 @@ public class AlternateSecurityManagerTest {
         ProtectionDomain[] actual = actualDomains.get(0);
 
         assertEquals("Matching ProtectionDomain[] size.", base.length, actual.length);
+        Set<URL> actualLocations = new HashSet<>(actual.length);
+        for (int i = 0; i < actual.length; i++) {
+            actualLocations.add(actual[i].getCodeSource().getLocation());
+        }
         for (int i = 0; i < base.length; i++) {
-            assertEquals("Matching CodeSource Location", base[i].getCodeSource().getLocation(), actual[i].getCodeSource().getLocation());
+            assertTrue("Matching CodeSource Location", actualLocations.contains(base[i].getCodeSource().getLocation()));
         }
     }
 
